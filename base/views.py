@@ -5,7 +5,7 @@ from visits.models import PageVisit
 
 def home(request):
     qs = PageVisit.objects.all()
-    page_qs = PageVisit.object.filter(path=request.path)
+    page_qs = PageVisit.objects.filter(path=request.path)
     qs.count()
     page_qs.count()
 
