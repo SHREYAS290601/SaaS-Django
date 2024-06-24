@@ -38,26 +38,18 @@ WORKDIR /code
 COPY requirements.txt /tmp/requirements.txt
 
 # copy the project code into the container's working directory
-COPY . /code
+COPY ./src /code
 
 # Install the Python project requirements
 RUN pip install -r /tmp/requirements.txt
 
-ARG DJANGO_SECRET_KEY
-ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-
-ARG DJANGO_DEBUG=0
-ENV DJANGO_DEBUG=${DJANGO_DEBUG}
-
 # database isn't available during build
 # run any other commands that do not need the database
 # such as:
-RUN python manage.py vendor_pull
-RUN python manage.py collectstatic --noinput
-# whitenoise -> s3
+# RUN python manage.py collectstatic --noinput
 
 # set the Django default project name
-ARG PROJ_NAME="base"
+ARG PROJ_NAME="cfehome"
 
 # create a bash script to run the Django project
 # this script will execute at runtime when
