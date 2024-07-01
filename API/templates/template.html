@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>{% block title %}SaaS{% endblock %}</title>
+    <meta name="description" content="Your description here" />
+    <meta name="keywords" content="your, keywords, here" />
+    <title>
+      {% block head_title %}SaaS{% endblock head_title %}
+    </title>
+    {% include "base/css.html" %}
   </head>
   <body>
-    {% block content %} {% endblock %}
+    {% include "navbar/nav.html" %}
+    {% block content %}{% endblock content %}
+    {% include "base/js.html" %}
   </body>
 </html>

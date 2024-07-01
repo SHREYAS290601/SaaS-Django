@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ko^+-11h-(%r#-0@40qvug!epui$@9e&026t76gr4e=y-$sj1f"
+SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=False, cast=bool)
+DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = [".railway.app"]
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Author apps
     "visits",
+    "command",
 ]
 
 MIDDLEWARE = [
@@ -140,6 +141,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_BASE_DIR = BASE_DIR / "staticfiles"
+STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
+
+# source(s) for python manage.py collectstatic
+STATICFILES_DIRS = [STATICFILES_BASE_DIR]
+
+# output for python manage.py collectstatic
+# local cdn
+STATIC_ROOT = BASE_DIR / "local-cdn"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -137,3 +137,9 @@ GitHub.sublime-settings
 !.vscode/extensions.json
 .history
 db.sqlite3
+API/base/settings.py.isorted
+API/static/vendors/flowbite.min.css
+API/static/vendors/flowbite.min.js
+API/static
+local-cdn
+API/staticfiles

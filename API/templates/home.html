@@ -1,8 +1,8 @@
 {% extends "template.html" %}
-
-{% block title %}{{ title }} - {{ block.super }}{% endblock %}
-
+{% block head_title %}
+  {{ title }} - {{ block.super }}
+{% endblock head_title %}
 {% block content %}
-    <h1>Welcome to the Home Page</h1>
-    <p>{{ content }}</p>
-{% endblock %}
+  <h1>Welcome to the Home Page</h1>
+  <p>{{ content }}</p>
+{% endblock content %}
