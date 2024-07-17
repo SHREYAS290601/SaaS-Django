@@ -10,6 +10,7 @@
   </head>
   <body>
     {% include "navbar/nav.html" %}
+    {% include 'base/messages.html' with messages=messages %}
     {% block content %}{% endblock content %}
     {% include "base/js.html" %}
   </body>

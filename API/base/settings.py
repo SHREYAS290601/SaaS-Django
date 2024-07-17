@@ -17,10 +17,24 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST", cast=str, default="smtp.gmail.com")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_USE_TLS = config("EMAIL_HOST_TLS", default=False, cast=bool)
+EMAIL_USE_SSL = config("EMAIL_HOST_SSL", default=False, cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+ADMIN_USER_NAME = config("ADMIN_USER_NAME")
+ADMIN_USER_EMAIL = config("ADMIN_USER_EMAIL")
+
+ADMINS = []
+MANAGERS = []
+if all([ADMIN_USER_NAME, ADMIN_USER_EMAIL]):
+    ADMINS += [(f"{ADMIN_USER_NAME}", f"{ADMIN_USER_EMAIL}")]
+    MANAGERS = ADMINS
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("DJANGO_SECRET_KEY")
 
@@ -48,7 +62,32 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Author apps
     "visits",
+    "profiles",
     "command",
+    "subscriptions",
+    # Auth
+    "allauth_ui",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.github",
+    "widget_tweaks",
+    "slippers",
+]
+ALLAUTH_UI_THEME = "nord"
+
+LOGIN_URL = "/accounts/login"
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_VERIFICATION = True
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[DEV.NEURON]"
+ACCOUNT_EMAIL_REQUIRED = True
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 MIDDLEWARE = [
@@ -58,6 +97,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -78,6 +118,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = "base.wsgi.application"
 
@@ -124,7 +165,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+SOCIALACCOUNT_PROVIDERS = {"github": {"VERIFIED_EMAIL": True}}
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 

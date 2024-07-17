@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+{% block head_title %}
+  {{ title }} - {{ block.super }}
+{% endblock head_title %}
+{% block content %}
+<h3 class="text-lg font-medium">Profile</h3>
+{% if perms.auth %}
+    {% if perms.auth.view_user %}
+        <div>
+            {% for instance in  data%}
+                <div>
+                        <li class='mr-2'><a href="/profiles/{{ instance.username }}">{{ instance.username }}</a></li>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div>
+            <p>Permission Denied.Sorry but you have no permission to view this data</p>
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock content %}
